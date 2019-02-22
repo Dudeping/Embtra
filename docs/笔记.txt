@@ -1,0 +1,6 @@
+压缩解压缩
+  tar xvf rootfs.tar.xz -C rootfs
+  
+移动文件
+  mv rootfs/* .
+

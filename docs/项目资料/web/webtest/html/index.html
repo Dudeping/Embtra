@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<script>
+function get_temp()
+{
+   var xmlhttp=new XMLHttpRequest();
+   xmlhttp.onreadystatechange=function()
+   {
+		document.getElementById('temp').value=xmlhttp.responseText;
+   }
+   xmlhttp.open("post","/html/index.html?temp",true);
+   xmlhttp.send(null);
+}
+function show_pic()
+{
+	document.getElementById("img").src="/?pic"+new Date().getTime();
+	setTimeout(show_pic,1000);
+}
+</script>
+</head>
+<body>
+
+<p>温度&nbsp&nbsp<input type="text" value=" " id="temp">&nbsp&nbsp<input type="button" onclick="get_temp()" value="提交"></p>
+
+<img id="img" height="480" width="640"/>
+<p><input type="button" value="start" onclick="show_pic()"></p>
+
+</body>
+</html>
+

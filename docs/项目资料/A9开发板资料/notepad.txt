@@ -1,0 +1,15 @@
+开发板启动流程方法
+1、准备资料
+    uImage(内核)
+    exynos4412-fs4412.dtb(内核设备树)
+    rootfs.tar.xz(根文件系统)
+    串口线，涉及到串口驱动，串口软件(secureCRT、超级终端或者putty)
+2、连接开发板
+    连接 串口连接
+    在Ubuntu配置nfs和TFTP服务器并启动
+    设置 bootargs serverip(Ubuntu IP)、ipaddr开发板的IP(与Ubuntu同一网段)、bootcmd(启动时下载内核和内核设备树)
+    saveenv 保存
+    boot 启动
+3、启动
+   交叉编译
+   运行

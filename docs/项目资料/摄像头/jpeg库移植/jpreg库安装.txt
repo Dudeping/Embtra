@@ -1,0 +1,33 @@
+安装 jpegsrc.v8d.tar.gz   三方库。按步骤制作
+	~#tar -xzvf jpegsrc.v8d.tar.gz
+
+	~#mkdir jpeg_9   //创建库编译输出目录
+
+	~#cd jpeg-8c/   //库解压好的目录
+
+	~#./configure --prefix=/root/jpeg_8 --host=arm-cortex_a8-linux-gnueabi (对cortex-a8交叉编译链所在目录)
+	~#./configure --prefix=/home/farsight/jpeg_9 --host= arm-none-linux-gnueabi (对cortex-a9平台所需交叉编译工具)
+ ./configure:是shell脚本，实现了Makefile；
+	
+	~#make 
+
+	~#make install
+
+找到交叉工具链的目录
+	~#which arm-none-linux-gnueabi-gcc
+得到：		/home/farsight/gcc/toolchain-4.5.1-farsight/bin/arm-none-linux-gnueabi-gcc/
+
+拷贝库头文件：
+	cd  /home/farsight/jpeg_9/include/  ------->jpeg相关头文件
+	cp -a  ./*  /home/farsight/gcc/toolchain-4.5.1-farsight/include/    ---->此路径的头文件是虚拟机CROSS_COMPILE的，为以后编译对应的视频应用程序做好准备工作。
+
+拷贝动态库
+cd /home/farsight/jpeg_9/lib/
+cp -a ./*  /home/farsight/gcc/toolchain-4.5.1-farsight/lib/
+
+拷贝库到板子上
+# cp -a /home/farsight/jpeg_9/lib/* /source/rootfs/lib/
+
+
+		 
+

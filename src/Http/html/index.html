@@ -1,0 +1,158 @@
+﻿<html>
+<head>
+    <meta charset="UTF-8">
+    <title>模拟智能家居平台</title>
+    <script>
+        // 获取温度数据
+        function get_temp() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById('temp').value = xmlhttp.responseText;
+            }
+            xmlhttp.open("post", "/?temp" + new Date().getTime(), true);
+            xmlhttp.send(null);
+        }
+
+        // 获取湿度数据
+        function get_hum() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById('hum').value = xmlhttp.responseText;
+            }
+            xmlhttp.open("post", "/?hum" + new Date().getTime(), true);
+            xmlhttp.send(null);
+        }
+
+        // 获取光强数据
+        function get_linght() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById('linght').value = xmlhttp.responseText;
+            }
+            xmlhttp.open("post", "/?linght" + new Date().getTime(), true);
+            xmlhttp.send(null);
+        }
+
+        // 获取Led状态
+        function get_led() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById('led').value = xmlhttp.responseText == 1 ? "开" : "关";
+            }
+            xmlhttp.open("post", "/?led" + new Date().getTime(), true);
+            xmlhttp.send(null);
+        }
+
+        // 获取风扇状态
+        function get_fan() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById('linght').value = xmlhttp.responseText == 1 ? "开" : "关";
+            }
+            xmlhttp.open("post", "/?linght" + new Date().getTime(), true);
+            xmlhttp.send(null);
+        }
+
+        // 获取蜂鸣器状态
+        function get_buzz() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById('buzz').value = xmlhttp.responseText == 1 ? "开" : "关";
+            }
+            xmlhttp.open("post", "/?buzz" + new Date().getTime(), true);
+            xmlhttp.send(null);
+        }
+
+        // 获取数码管状态
+        function get_seven_led() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                document.getElementById('seven_led').value = xmlhttp.responseText == 1 ? "开" : "关";
+            }
+            xmlhttp.open("post", "/?seven_led" + new Date().getTime(), true);
+            xmlhttp.send(null);
+        }
+
+        // 获取图片
+        function get_pic() {
+            document.getElementById("img").src = "/?pic" + new Date().getTime();
+        }
+
+        function get_start() {
+            // 环境数据设备信息
+            setInterval(get_env, 2000);
+
+            // 视频 20帧
+            //setInterval(get_pic, 50);
+            setInterval(get_pic, 1000);
+        }
+
+        function get_env() {
+            // 温度
+            get_temp();
+            // 湿度
+            get_hum();
+            // 光强
+            get_linght();
+            // LED灯
+            get_led();
+            // 风扇
+            get_fan();
+            // 蜂鸣器
+            get_buzz();
+            // 数码管
+            get_seven_led();
+        }
+
+    </script>
+</head>
+<body onload="get_start">
+
+    <table style="margin-left: 30px">
+        <thead>
+            <tr>
+                <th colspan="13">系统环境数据和设备状态</th>
+            </tr>
+            <tr>
+                <td>温度(℃)&nbsp;</td>
+                <th></th>
+                <td>&nbsp;湿度(%RH)&nbsp;</td>
+                <th></th>
+                <td>&nbsp;光强(LUX)</td>
+                <th></th>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;灯&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <th></th>
+                <td>&nbsp;&nbsp;风扇&nbsp;&nbsp;</td>
+                <th></th>
+                <td>&nbsp;&nbsp;蜂鸣器&nbsp;&nbsp;</td>
+                <th></th>
+                <td>&nbsp;&nbsp;数码管&nbsp;&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="text-align: center">
+                <td id="temp">20</td>
+                <td></td>
+                <td id="hum">60</td>
+                <td></td>
+                <td id="linght">120</td>
+                <td></td>
+                <td id="led">开</td>
+                <td></td>
+                <td id="fan">关</td>
+                <td></td>
+                <td id="buzz">关</td>
+                <td></td>
+                <td id="seven_led">关</td>
+            </tr>
+            <tr>
+                <td colspan="13">&nbsp;</td>
+            </tr>
+            <tr>
+                <th colspan="13">视频信息</th>
+            </tr>
+        </tbody>
+    </table>
+    <img id="img" src="/?pic" height="400" width="640" alt="" />
+</body>
+</html>

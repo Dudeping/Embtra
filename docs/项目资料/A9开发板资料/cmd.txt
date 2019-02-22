@@ -1,0 +1,106 @@
+﻿嵌入式系统概念问题 安装有操作系统的计算机系统
+系统移植 给我们的开发板安装Linux操作系统 并能编写在其中运行的应用程序
+
+1.软件安装
+su - root
+apt-get install exuberant-ctags
+apt-get install tftp-hpa
+apt-get install tftpd-hpa
+apt-get install nfs-kernel-server
+apt-get install libncurses5-dev
+
+关闭防火墙 ufw disable
+
+2.配置tftpd
+vim /etc/default/tftpd-hpa
+
+TFTP_DIRECTORY=""
+TFTP_OPTIONS="-l -c -s"
+重启tftp服务
+service tftpd-hpa restart
+测试
+tftp 127.0.0.1
+put xxx
+get xxx
+注意目录和文件的权限
+
+3.配置网卡
+将开发板和PC用网线连接起来 
+桥接网卡
+
+配置ip地址
+
+开发板端
+u-boot命令
+
+printenv 查看环境变量
+
+setenv ipaddr 192.168.2.100
+setenv netmask 255.255.255.0
+setenv serverip 192.168.2.200
+setenv gatewayip 192.168.2.1
+saveenv
+
+Ubuntu端
+vim /etc/network/interfaces
+
+iface eth0 inet static
+address 192.168.2.100
+netmask 255.255.255.0
+gateway 192.168.2.2
+
+ifdown eth0
+ifup eth0
+
+4.下传内核文件uImage
+
+tftp 41000000 uImage 下载内核
+tftp 42000000 exynos4412-fs4412.dtb 下载设备树
+bootm 41000000 - 42000000 启动内核
+根文件系统
+
+5.配置nfs
+vim /etc/exports
+/rootfs *(rw,sync,no_root_squash,no_subtree_check)
+重启nfs服务
+service nfs-kernel-server restart
+
+setenv bootargs "root=/dev/nfs nfsroot=192.168.15.4:/rootfs rw console=ttySAC2,115200 init=/linuxrc ip=192.168.15.5"
+setenv bootcmd "tftp 41000000 uImage; tftp 42000000 exynos4412-fs4412.dtb; bootm 41000000 - 42000000"
+
+
+6.安装交叉编译工具链
+tar xvf gcc-4.6.4.tar.xz -C /opt
+在/etc/profile文件的最后新增
+export PATH=$PATH:/opt/gcc-4.6.4/bin
+刷新source /etc/profile
+
+7.解压u-boot
+tar xvf u-boot-2013.01-fs4412.tar -C ~
+cd ~/u-boot-2013.01-fs4412
+
+配置make fs4412_config
+编译make
+
+exynos4412因为有一些加密./build.sh 把之前生成u-boot.bin转换成u-boot-fs4412.bin
+
+
+把tools\mkimage文件复制到一个在PATH环境变量里存在的目录
+mkimage工具是一个能生成uImage工具
+
+将u-boot-fs4412.bin复制到tftp的下载目录中
+启动开发板
+执行tftp 41000000 u-boot-fs4412.bin
+movi write uboot 41000000   从sd卡启动转到emmc启动，执行这两个命令
+
+8.内核
+解压tar xvf linux-3.14-fs4412.tar.xz -C ~
+cd ~/linux-3.14-.fs4412
+make uImage 生成uImage内核映象
+make dtbs 生成设备树
+得到自己编译生成的uImage设备树
+把编译生成的结果复制到tftp的下载目录
+
+9.根文件系统
+利用busybox得到基本工具命令
+

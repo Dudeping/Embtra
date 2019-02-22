@@ -1,0 +1,78 @@
+模块间接口
+
+// 环境信息
+struct env
+{
+    // 温度
+    int temperate;
+    // 湿度
+    int humidity;
+    // 光强
+    int light;
+}myenv;
+
+// 设备状态
+struct dev
+{
+    // Led状态 1:开, 0:关
+    int led;
+    // 风扇状态 1:开, 0:关
+    int fan;
+    // 蜂鸣器 1:开, 0:关
+    int buzz;
+    // 数码管 1:开, 0:关
+    int seven_led;
+}mydev;
+
+// 图片信息
+struct picture
+{
+    // 长度
+    int len;
+    // 内容
+    char content[200 * 1024];
+}PIC;
+
+
+web客户端到服务器
+  首页数据  GET / HTTP/1.1
+  温度数据  POST /?temp
+  湿度数据  POST /?hum
+  光照数据  POST /?led
+  图片数据  GET /?pic
+  蜂鸣器状态  POST /?buzz
+  数码管状态  POST /?seven_led
+
+QT客户端到server
+  获取温度  get temp
+  获取湿度  get hum
+  获取光强  get light
+  获取图片  get pic
+  获取LED灯状态  get led
+  获取电风扇状态 get fan
+  获取蜂鸣器状态 get buzz
+  获取数码管状态 get seven_led
+  开灯      led_on
+  关灯      led_off
+  开蜂鸣器  speaker_on
+  关蜂鸣器  speaker_off
+  开风扇    fan_on
+  风扇低速  fan_low
+  风扇中速  fan_mid
+  风扇高速  fan_hight
+  关风扇    fan_off
+  开数码管  sever_led_on
+  关数码管  sever_led_off
+
+M0给server提供操作接口
+  开灯      led_on
+  关灯      led_off
+  开蜂鸣器  speaker_on
+  关蜂鸣器  speaker_off
+  开风扇    fan_on
+  风扇低速  fan_low
+  风扇中速  fan_mid
+  风扇高速  fan_hight
+  关风扇    fan_off
+  开数码管  sever_led_on
+  关数码管  sever_led_off
